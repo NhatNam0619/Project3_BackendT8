@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Quản Trị</title>
+    <th:block th:replace="~{admin/common/header :: header}"></th:block>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="icon" type="image/png" href="https://pngimg.com/uploads/building/building_PNG3.png" />
+</head>
+<body class="no-skin" style="font-family: 'Abel', sans-serif;">
+<th:block th:replace="~{admin/common/menu :: menu}"></th:block>
+<div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+    <th:block th:replace="~{admin/common/sidebar :: sidebar}"></th:block>
+    <div class="main-content">
+        <div class="main-content-inner">
+            <!-- Breadcrumb -->
+            <div class="breadcrumbs" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="ace-icon fa fa-home home-icon"></i>
+                        <a th:href="@{/admin/home}">Trang chủ</a>
+                    </li>
+                    <li class="active">Danh sách người dùng</li>
+                </ul>
+            </div>
+            <div class="page-content" style="padding: 8px 20px;">
+                <div class="page-header">
+                    <h1>
+                        Trang chủ quản trị
+
+                    </h1>
+                </div><!-- /.page-header -->
+        </div>
+    </div>
+</div>
+<th:block th:replace="~{admin/common/footer :: footer}"></th:block>
+<th:block th:replace="~{admin/common/common-scripts :: jquery}"></th:block>
+</div>
+</body>
+</html>
