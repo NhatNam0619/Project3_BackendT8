@@ -51,7 +51,7 @@ public class BuildingDTO {
         String renttime;
         String decorationtime;
         String brokeragefee;
-        double price;
+
         @Size(min = 1,message = "type must more then 1")
         List<String> type;
         String note;

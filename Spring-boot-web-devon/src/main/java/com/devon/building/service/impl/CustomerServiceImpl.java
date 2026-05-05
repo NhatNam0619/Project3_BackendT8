@@ -39,7 +39,6 @@ public class CustomerServiceImpl implements CustomerService {
 
         if (!SecurityUtil.hasRole("MANAGER")) {
             params.setStaffid(userRepository.findByUserName(SecurityContextHolder.getContext().getAuthentication().getName()).getId());}
-
         CustomerResquestBuilder customerResquestBuilder = customerRequestBuilderConverter.toCustomerSearchBuilder(params);
         List<Customer> customers = customerRepository.findAll(customerResquestBuilder);
         List<CustomerResponseDTO> customerResponseDTOS = new ArrayList<>();
@@ -114,7 +113,7 @@ public class CustomerServiceImpl implements CustomerService {
         ResponseDTO responseDTO = new ResponseDTO();
         for (Long id : ids) {
             Customer customer = customerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Building not found within id: " + id));
-            if (!customer.getUsers().isEmpty()) {
+            if (SecurityUtil.hasRole("MANAGER")&&!customer.getUsers().isEmpty()) {
                 responseDTO.setMessage("Khách hàng đang được giao cho nv !!");
                 return responseDTO;
             }
@@ -123,7 +122,7 @@ public class CustomerServiceImpl implements CustomerService {
                 return responseDTO;
             }
             else {
-                if (!SecurityUtil.hasRole("MANAGER")) {
+                if (SecurityUtil.hasRole("MANAGER")) {
                 customerRepository.deleteById(id);}
                 customer.setIsActive(false);
             }

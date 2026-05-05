@@ -9,7 +9,7 @@ import lombok.Setter;
 public class ProductInfo {
     private Long id;
     private String name;
-    private double price;
+    private double rentPrice;
     private String street;
     private String ward;
     private String district;
@@ -20,17 +20,17 @@ public class ProductInfo {
     public ProductInfo(Building building) {
         this.id = building.getId();
         this.name = building.getName();
-        this.price = building.getPrice();
+        this.rentPrice = building.getRentprice();
         this.street = building.getStreet();
         this.ward = building.getWard();
         this.district = building.getDistrict();
     }
 
     // Using in JPA/Hibernate query
-    public ProductInfo(Long id, String name, double price, String street, String ward, String district) {
+    public ProductInfo(Long id, String name, double rentPrice, String street, String ward, String district) {
         this.id = id;
         this.name = name;
-        this.price = price;
+        this.rentPrice = rentPrice;
         this.street = street;
         this.ward = ward;
         this.district = district;

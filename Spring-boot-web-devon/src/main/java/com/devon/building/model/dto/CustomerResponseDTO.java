@@ -1,10 +1,12 @@
 package com.devon.building.model.dto;
 
+import com.devon.building.entity.Transaction;
 import com.devon.building.entity.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
+import java.util.Map;
 
 @Setter
 @Getter
@@ -20,4 +22,5 @@ public class CustomerResponseDTO extends AbstractDTO{
     private String status;
     private String statusname;
     private String companyname;
+    private Map<String, List<TransactionDTO>> transactionList;
 }

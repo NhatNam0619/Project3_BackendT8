@@ -36,7 +36,7 @@ public class ProductRepository {
         if (building == null) {
             return null;
         }
-        return new ProductInfo(building.getId(), building.getName(), building.getPrice(), building.getStreet(), building.getWard(), building.getDistrict());
+        return new ProductInfo(building.getId(), building.getName(), building.getRentprice(), building.getStreet(), building.getWard(), building.getDistrict());
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -56,7 +56,7 @@ public class ProductRepository {
         }
         building.setId(id);
         building.setName(productForm.getName());
-        building.setPrice(productForm.getPrice());
+        building.setRentprice(productForm.getRentPrice());
 
         if (productForm.getFileData() != null) {
             byte[] image = null;

@@ -240,8 +240,15 @@
                                                 onclick="assignmnentcustomer(this)" style="border-radius: 5px"
                                                 sec:authorize="hasRole('MANAGER')">
                                             <i class="ace-icon fa  fa-users bigger-120"></i>
-
                                         </button>
+
+                                        <button class="btn btn-xs btn-purple" title="View"
+                                                th:attr="data-id=${customerResponseDTO.id}"
+                                                onclick="viewcustomer(this)" style="border-radius: 5px">
+                                            <i class="ace-icon fa fa-eye bigger-120"></i>
+                                        </button>
+
+
 
                                         <a th:href="@{/admin/customers/edit/{id}(id=${customerResponseDTO.id})}"
                                          class="btn btn-xs btn-info" title="Sửa"
@@ -318,6 +325,29 @@
                         <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal"
                                 style="border-radius: 8px; overflow:hidden;">Hủy thao
                             tác</button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- Modal Assignment -->
+
+
+        <!-- Modal ViewCustomer -->
+        <div class="modal fade" id="viewCustomerModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document"
+                 style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;width: 1400px;">
+                <div class="modal-content" style="border-radius: 10px; overflow: hidden;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="viewModalLabel">Chi tiết khách hàng</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div style="margin-top: 30px">
+                            <div class="hr hr-18 dotted hr-double"></div>
+                            <div class="row">
+                                    <table id="transaction-cskh" class="table table-striped table-bordered table-hover">
+                                        <tbody id="transaction-body"></tbody>
+                                    </table>
+                            </div><!-- table -->
+                        </div> <!-- CSKH -->
                     </div>
                 </div>
             </div>
@@ -432,6 +462,7 @@
         $('#sureModal').modal();
     }
 
+
     $('#btn-deleteonecustomer').click(function (e) {
         e.preventDefault();
         var id = $('#customerid').val();
@@ -500,7 +531,6 @@
                 }
             });
     }
-
     function loadCustomers(ids) {
         $.ajax({
             url: "/api/customers/" + ids + "/customers",
@@ -519,6 +549,7 @@
             }
         });
     }
+
 
     function loadStaff(id) {
         $.ajax({
@@ -540,6 +571,46 @@
                 });
                 $('#staff-list tbody').html(row);
             }
+        });
+    }
+
+    function viewcustomer(btn) {
+        const id = $(btn).data('id');
+
+        $.get('/api/customers/' + id + '/transaction', function (res) {
+            let map = res.data;
+            let tbody = $('#transaction-body');
+            tbody.empty();
+            for (let key in map) {
+                tbody.append(`
+            <tr>
+                <td colspan="6"><strong>${key}</strong></td>
+            </tr>
+            <tr class="group-header">
+                <th style="width: 300px;">Ngày tạo</th>
+                <th style="width: 300px;">Người tạo</th>
+                <th style="width: 300px;">Ngày sửa</th>
+                <th style="width: 300px;">Người sửa</th>
+                <th>Chi tiết giao dịch</th>
+            </tr>
+        `);
+                let list = map[key];
+                if (Array.isArray(list)) {
+                    list.forEach(tran => {
+                        tbody.append(`
+                    <tr>
+                        <td>${tran.createdDate || ''}</td>
+                        <td>${tran.createdBy || ''}</td>
+                        <td>${tran.modifiedDate || ''}</td>
+                        <td>${tran.modifiedBy || ''}</td>
+                        <td>${tran.note || ''}</td>
+                    </tr>
+                `);
+                    });
+                }
+            }
+
+            $('#viewCustomerModal').modal('show');
         });
     }
 </script>

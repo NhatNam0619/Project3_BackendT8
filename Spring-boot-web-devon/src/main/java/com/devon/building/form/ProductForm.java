@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProductForm {
     private Long id;
     private String name;
-    private double price;
+    private double rentPrice;
  
     private boolean newProduct = false;
  
@@ -24,7 +24,7 @@ public class ProductForm {
     public ProductForm(Building building) {
         this.id = building.getId();
         this.name = building.getName();
-        this.price = building.getPrice();
+        this.rentPrice = building.getRentprice();
     }
  
 }

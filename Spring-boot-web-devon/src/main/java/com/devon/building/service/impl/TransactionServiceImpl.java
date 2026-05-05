@@ -1,5 +1,6 @@
 package com.devon.building.service.impl;
 
+import com.devon.building.converter.TransactionDTOsConverter;
 import com.devon.building.entity.Customer;
 import com.devon.building.entity.Transaction;
 import com.devon.building.model.dto.ResponseDTO;
@@ -12,6 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -21,6 +26,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final CustomerRepository customerRepository;
     private final UserRepository userRepository;
+    private final TransactionDTOsConverter transactionDTOsConverter;
 
     @Override
     public TransactionDTO addTransaction(TransactionDTO transactionDTO) {
@@ -48,5 +54,21 @@ public class TransactionServiceImpl implements TransactionService {
     public ResponseDTO deleteTransaction(Long id) {
         transactionRepository.deleteById(id);
         return null;
+    }
+
+    @Override
+    public List<TransactionDTO> setFullname(List<Transaction> transactions) {
+
+        List<TransactionDTO> transactionDTOList = new ArrayList<>();
+        for (Transaction t : transactions) {
+            TransactionDTO transactionDTO = transactionDTOsConverter.toTransactionDTO(t);
+            if (StringUtils.hasText(t.getCreatedBy())) {
+            transactionDTO.setCreatedBy(userRepository.findByUserName(t.getCreatedBy()).getFullName());}
+            if (StringUtils.hasText(t.getModifiedBy())) {
+                transactionDTO.setModifiedBy(userRepository.findByUserName(t.getModifiedBy()).getFullName());
+            }
+            transactionDTOList.add(transactionDTO);
+        }
+        return transactionDTOList;
     }
 }

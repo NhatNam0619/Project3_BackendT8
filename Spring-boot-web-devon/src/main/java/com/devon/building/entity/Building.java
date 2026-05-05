@@ -64,7 +64,7 @@ public class Building implements Serializable {
     String level;
 
     @Column(name = "rentprice", nullable = false)
-    Long rentprice;
+    double rentprice;
 
     String rentpricedescription;
     String servicefee;
@@ -78,7 +78,6 @@ public class Building implements Serializable {
     String renttime;
     String decorationtime;
     String brokeragefee;
-    double price;
 
     @Column(name = "type", nullable = false)
     String type;

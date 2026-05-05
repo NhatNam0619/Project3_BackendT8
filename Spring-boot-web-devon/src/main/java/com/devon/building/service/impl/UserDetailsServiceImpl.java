@@ -52,6 +52,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 user.getEncrytedPassword(), enabled, accountNonExpired, //
                 credentialsNonExpired, accountNonLocked, grantList);
 
+
         return userDetails;
     }
 }

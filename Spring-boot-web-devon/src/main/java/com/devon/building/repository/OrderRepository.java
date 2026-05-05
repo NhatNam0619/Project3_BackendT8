@@ -68,7 +68,7 @@ public class OrderRepository {
             detail.setId(UUID.randomUUID().toString());
             detail.setOrder(order);
             detail.setAmount(line.getAmount());
-            detail.setPrice(line.getProductInfo().getPrice());
+            detail.setPrice(line.getProductInfo().getRentPrice());
             detail.setQuanity(line.getQuantity());
  
             Long id = line.getProductInfo().getId();
