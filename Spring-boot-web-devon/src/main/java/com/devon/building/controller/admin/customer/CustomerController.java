@@ -13,6 +13,7 @@ import com.devon.building.service.TransactionService;
 import com.devon.building.service.UserService;
 import com.devon.building.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -55,14 +56,12 @@ public class CustomerController {
         return mav;
     }
 
+    @PreAuthorize("hasRole('MANAGER') or @customerSecurity.isOwner(#Id)")
     @GetMapping("/edit/{Id}")
     public ModelAndView editCustomer(@PathVariable Long Id){
         ModelAndView mav = new ModelAndView("admin/customer/customerEdit");
         Customer customer = customerService.getCustomer(Id);
-        if(!SecurityUtil.hasRole("MANAGER") && !customer.getUsers().contains(userService.getUsername(SecurityContextHolder.getContext().getAuthentication().getName())))
-        {return new ModelAndView("403");}
-        List<TransactionDTO> transactionDTOs = transactionService.setFullname(customerService.getCustomer(Id).getTransactions());
-        CustomerResponseDTO customerResponseDTO = customerDTOsConverter.convertCustomerResponseDTOs(customer,transactionDTOs);
+        CustomerResponseDTO customerResponseDTO = customerDTOsConverter.convertCustomerResponseDTO(customer);
         mav.addObject("customer",customerResponseDTO);
         mav.addObject("statusId",StatusCode.getStatus());
         mav.addObject("CSKH",customerResponseDTO.getTransactionList().get("CSKH"));

@@ -13,6 +13,7 @@ import com.devon.building.service.BuildingService;
 import com.devon.building.service.UserService;
 import com.devon.building.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -61,17 +62,17 @@ public class BuildingController {
         return mav;
     }
 
+    @PreAuthorize("hasRole('MANAGER') or @buildingSecurity.isOwner(#buildingId)")
     @GetMapping("/edit/{buildingId}")
     public ModelAndView editBuilding(@PathVariable Long buildingId){
         ModelAndView mav = new ModelAndView("admin/buildings/buildingEdit");
         Building building = buildingService.getBuiding(buildingId);
-        if(SecurityUtil.hasRole("MANAGER") || building.getUsers().contains(userService.getUsername(SecurityContextHolder.getContext().getAuthentication().getName()))){
+        //if(SecurityUtil.hasRole("MANAGER") || building.getUsers().contains(userService.getUsername(SecurityContextHolder.getContext().getAuthentication().getName()))){
         BuildingDTO buildingDTO = buildingDTOsConverter.toBuildingsDTO(building);
         mav.addObject("building",buildingDTO);
         mav.addObject("districtid", District.getDistrict());
         mav.addObject("types", TypeCode.getType());
         return mav;}
-        else return new ModelAndView("403");
+        //else return new ModelAndView("403");
     }
 
-}

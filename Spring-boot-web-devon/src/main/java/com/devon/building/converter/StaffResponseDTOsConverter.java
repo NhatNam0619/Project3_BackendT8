@@ -12,6 +12,7 @@ public class StaffResponseDTOsConverter {
         StaffResponseDTO staffResponseDTO = new StaffResponseDTO();
         staffResponseDTO.setId(it.getId());
         staffResponseDTO.setFullname(it.getFullName());
+        staffResponseDTO.setUsername(it.getUserName());
         return staffResponseDTO;
     }
 }

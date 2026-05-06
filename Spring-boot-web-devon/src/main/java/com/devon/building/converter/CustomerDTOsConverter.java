@@ -20,24 +20,18 @@ public class CustomerDTOsConverter {
     private final ModelMapper modelMapper;
     private final TransactionDTOsConverter transactionDTOsConverter;
 
-    public CustomerResponseDTO convertCustomerResponseDTOs(Customer customer,List<TransactionDTO> transactionDTOs) {
+    public CustomerResponseDTO convertCustomerResponseDTO(Customer customer) {
         CustomerResponseDTO customerResponseDTO = modelMapper.map(customer, CustomerResponseDTO.class);
         customerResponseDTO.setStatusname(StatusCode.getName(customer.getStatus()));
         Map<String, List<TransactionDTO>> transactionList = new HashMap<>();
         if (customer.getTransactions() != null) {
-            transactionList = transactionDTOs.stream().collect(Collectors.groupingBy(TransactionDTO::getCode));
+            transactionList = transactionDTOsConverter.toListTransactionDTO(customer.getTransactions())
+                    .stream()
+                    .collect(Collectors.groupingBy(TransactionDTO::getCode));
         }
         customerResponseDTO.setTransactionList(transactionList);
-
         return customerResponseDTO;
     }
-
-    public CustomerResponseDTO convertCustomerResponseDTO(Customer customer) {
-        CustomerResponseDTO customerResponseDTO = modelMapper.map(customer, CustomerResponseDTO.class);
-        customerResponseDTO.setStatusname(StatusCode.getName(customer.getStatus()));
-        return customerResponseDTO;
-    }
-
     public Customer toCustomerEntity(CustomerDTO customerDTO) {
         Customer customer = modelMapper.map(customerDTO, Customer.class);
         return customer;}

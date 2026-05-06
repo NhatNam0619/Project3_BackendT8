@@ -137,8 +137,7 @@ public class CustomerAPI {
     @GetMapping("/{Id}/transaction")
     public ResponseEntity<ResponseDTO> loadTransactions(@PathVariable Long Id)
     {
-        List<TransactionDTO> transactionDTOs = transactionService.setFullname(customerService.getCustomer(Id).getTransactions());
-        CustomerResponseDTO customerResponseDTO = customerDTOsConverter.convertCustomerResponseDTOs(customerService.getCustomer(Id),transactionDTOs);
+        CustomerResponseDTO customerResponseDTO = customerDTOsConverter.convertCustomerResponseDTO(customerService.getCustomer(Id));
         Map<String, List<TransactionDTO>> transactionType = customerResponseDTO.getTransactionList();
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setData(transactionType);

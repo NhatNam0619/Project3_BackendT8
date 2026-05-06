@@ -14,5 +14,4 @@ public interface TransactionService {
     TransactionDTO addTransaction(TransactionDTO transactionDTO);
     TransactionDTO updateTransaction(TransactionDTO transactionDTO);
     ResponseDTO deleteTransaction(Long id);
-    List<TransactionDTO> setFullname(List<Transaction> transaction);
 }

@@ -12,4 +12,5 @@ public class StaffResponseDTO {
     Long id;
     String fullname;
     String checkbox;
+    String username;
 }

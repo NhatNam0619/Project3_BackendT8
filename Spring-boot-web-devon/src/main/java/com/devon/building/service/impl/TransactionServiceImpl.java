@@ -56,19 +56,4 @@ public class TransactionServiceImpl implements TransactionService {
         return null;
     }
 
-    @Override
-    public List<TransactionDTO> setFullname(List<Transaction> transactions) {
-
-        List<TransactionDTO> transactionDTOList = new ArrayList<>();
-        for (Transaction t : transactions) {
-            TransactionDTO transactionDTO = transactionDTOsConverter.toTransactionDTO(t);
-            if (StringUtils.hasText(t.getCreatedBy())) {
-            transactionDTO.setCreatedBy(userRepository.findByUserName(t.getCreatedBy()).getFullName());}
-            if (StringUtils.hasText(t.getModifiedBy())) {
-                transactionDTO.setModifiedBy(userRepository.findByUserName(t.getModifiedBy()).getFullName());
-            }
-            transactionDTOList.add(transactionDTO);
-        }
-        return transactionDTOList;
-    }
 }
