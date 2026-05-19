@@ -16,7 +16,7 @@ import java.util.Map;
 public class CustomerResponseDTO extends AbstractDTO{
     private Long id;
     private String fullName;
-    private Long phone;
+    private String phone;
     private String email;
     private String demand;
     private String status;

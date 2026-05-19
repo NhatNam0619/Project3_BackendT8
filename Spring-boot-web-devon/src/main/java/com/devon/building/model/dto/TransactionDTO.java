@@ -16,4 +16,5 @@ public class TransactionDTO extends AbstractDTO {
     String note;
     Long customerId;
     Long staffid;
+    boolean active;
 }

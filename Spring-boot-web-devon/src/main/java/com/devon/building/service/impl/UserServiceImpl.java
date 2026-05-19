@@ -163,7 +163,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<Long, String> getAllRoleStaff() {
         List<User> allStaff = userRepository.findByUserRoleAndActive("ROLE_STAFF",true);
-        Map<Long, String> staffs = allStaff.stream().collect(Collectors.toMap(User::getId,User::getFullName));
+        Map<Long, String> staffs = allStaff.stream().collect(Collectors.toMap(User::getId,User::getUserName));
         return staffs;
     }
 

@@ -9,6 +9,7 @@ import com.devon.building.repository.CustomerRepository;
 import com.devon.building.repository.TransactionRepository;
 import com.devon.building.repository.UserRepository;
 import com.devon.building.service.TransactionService;
+import com.devon.building.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,6 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final CustomerRepository customerRepository;
     private final UserRepository userRepository;
-    private final TransactionDTOsConverter transactionDTOsConverter;
 
     @Override
     public TransactionDTO addTransaction(TransactionDTO transactionDTO) {
@@ -52,7 +52,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public ResponseDTO deleteTransaction(Long id) {
-        transactionRepository.deleteById(id);
+        if (SecurityUtil.hasRole("MANAGER")) {
+            transactionRepository.deleteById(id);}
+        else transactionRepository.findTransactionById(id).setActive(false);
         return null;
     }
 

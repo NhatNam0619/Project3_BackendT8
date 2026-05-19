@@ -45,10 +45,6 @@ public class CustomerServiceImpl implements CustomerService {
         for(Customer customer : customers)
         {
             CustomerResponseDTO customerResponseDTO = customerDTOsConverter.convertCustomerResponseDTO(customer);
-//            if(customer.getCreatedBy()!=null && !customer.getCreatedBy().isEmpty() && !customer.getCreatedBy().equals("anonymousUser")){
-//                String name = userRepository.findByUserName(customer.getCreatedBy()).getFullName();
-//                customerResponseDTO.setCreatedBy(name);}
-//            else customerResponseDTO.setCreatedBy("anonymousUser");
             customerResponseDTOS.add(customerResponseDTO);
         }
         return customerResponseDTOS;
@@ -124,7 +120,7 @@ public class CustomerServiceImpl implements CustomerService {
             else {
                 if (SecurityUtil.hasRole("MANAGER")) {
                 customerRepository.deleteById(id);}
-                customer.setIsActive(false);
+                //else customer.setIsActive(false);
             }
         }
         responseDTO.setMessage("Xoa Thanh Cong" );

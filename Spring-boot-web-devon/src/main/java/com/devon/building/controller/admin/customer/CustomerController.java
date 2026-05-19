@@ -5,6 +5,7 @@ import com.devon.building.converter.TransactionDTOsConverter;
 import com.devon.building.entity.Customer;
 import com.devon.building.entity.Transaction;
 import com.devon.building.enums.StatusCode;
+import com.devon.building.enums.TransactionCode;
 import com.devon.building.model.dto.CustomerResponseDTO;
 import com.devon.building.model.dto.TransactionDTO;
 import com.devon.building.model.request.CustomerSearchRequest;
@@ -34,7 +35,6 @@ public class CustomerController {
     private final CustomerService customerService;
     private final UserService userService;
     private final CustomerDTOsConverter customerDTOsConverter;
-    private final TransactionService transactionService;
 
     @GetMapping("/list")
     public ModelAndView getCustomer(@ModelAttribute("params") CustomerSearchRequest params, @RequestParam(value = "page", defaultValue = "1") String pageStr){
@@ -44,6 +44,7 @@ public class CustomerController {
         mav.addObject("customerResponseDTOs",customers);
         mav.addObject("staffs",userService.getAllRoleStaff());
         mav.addObject("status", StatusCode.getStatus());
+        mav.addObject("transactionCode", TransactionCode.getStatus());
         return mav;
     }
 
@@ -64,8 +65,7 @@ public class CustomerController {
         CustomerResponseDTO customerResponseDTO = customerDTOsConverter.convertCustomerResponseDTO(customer);
         mav.addObject("customer",customerResponseDTO);
         mav.addObject("statusId",StatusCode.getStatus());
-        mav.addObject("CSKH",customerResponseDTO.getTransactionList().get("CSKH"));
-        mav.addObject("DDX",customerResponseDTO.getTransactionList().get("DDX"));
+        mav.addObject("transactionCode", TransactionCode.getStatus());
         return mav;
     }
 }

@@ -24,8 +24,6 @@ import java.util.Map;
 public class CustomerAPI {
 
     private final CustomerService customerService;
-    private final TransactionService transactionService;
-    private final CustomerDTOsConverter customerDTOsConverter;
 
     @PreAuthorize("hasRole('MANAGER')")
     @PutMapping("/assignmentcustomer")
@@ -38,6 +36,8 @@ public class CustomerAPI {
         return  ResponseEntity.ok().body(customerResponseDTO);
     }
 
+
+    @PreAuthorize("hasRole('MANAGER')")
     @GetMapping("/{customerId}/staffs")
     public ResponseEntity<ResponseDTO> loadStaffs(@PathVariable Long customerId)
     {
@@ -70,6 +70,7 @@ public class CustomerAPI {
         }
     }
 
+    @PreAuthorize("hasRole('MANAGER') or @customerSecurity.isOwner(#p0.id)")
     @PutMapping
     public ResponseEntity<ResponseDTO> updateCustomer(@RequestBody @Valid CustomerDTO customerDTO, BindingResult bindingResult) {
         ResponseDTO responseDTO = new ResponseDTO();
@@ -91,6 +92,7 @@ public class CustomerAPI {
         }
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @GetMapping("/{Ids}/customers")
     public ResponseEntity<ResponseDTO> loadCustomers(@PathVariable List<Long> Ids)
     {
@@ -101,48 +103,11 @@ public class CustomerAPI {
         return  ResponseEntity.ok().body(responseDTO);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @DeleteMapping("{ids}")
     public ResponseEntity<ResponseDTO> deleteCustomer(@PathVariable List<Long> ids) {
         ResponseDTO responseDTO = customerService.deleteCustomer(ids);
         return ResponseEntity.ok(responseDTO);
-    }
-
-    @PostMapping("/transaction")
-    public ResponseEntity<TransactionDTO> createTransaction(@RequestBody TransactionDTO transactionDTO)
-    {
-        transactionService.addTransaction(transactionDTO);
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setData(transactionDTO);
-        responseDTO.setMessage("Done!!");
-        return  ResponseEntity.ok().body(transactionDTO);
-    }
-
-    @PutMapping("/transaction")
-    public ResponseEntity<TransactionDTO> updateTransaction(@RequestBody TransactionDTO transactionDTO)
-    {
-        transactionService.updateTransaction(transactionDTO);
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setData(transactionDTO);
-        responseDTO.setMessage("Done!!");
-        return  ResponseEntity.ok().body(transactionDTO);
-    }
-
-    @DeleteMapping("/transaction/{id}")
-    public ResponseEntity<ResponseDTO> deleteTransaction(@PathVariable Long id)
-    {
-        ResponseDTO responseDTO = transactionService.deleteTransaction(id);
-        return  ResponseEntity.ok().body(responseDTO);
-    }
-
-    @GetMapping("/{Id}/transaction")
-    public ResponseEntity<ResponseDTO> loadTransactions(@PathVariable Long Id)
-    {
-        CustomerResponseDTO customerResponseDTO = customerDTOsConverter.convertCustomerResponseDTO(customerService.getCustomer(Id));
-        Map<String, List<TransactionDTO>> transactionType = customerResponseDTO.getTransactionList();
-        ResponseDTO responseDTO = new ResponseDTO();
-        responseDTO.setData(transactionType);
-        responseDTO.setMessage("Done!!");
-        return  ResponseEntity.ok().body(responseDTO);
     }
 
 }

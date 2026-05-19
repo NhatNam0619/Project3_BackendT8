@@ -30,6 +30,7 @@ public class CustomerDTOsConverter {
                     .collect(Collectors.groupingBy(TransactionDTO::getCode));
         }
         customerResponseDTO.setTransactionList(transactionList);
+        customerResponseDTO.setPhone("0" + String.valueOf(customer.getPhone()));
         return customerResponseDTO;
     }
     public Customer toCustomerEntity(CustomerDTO customerDTO) {

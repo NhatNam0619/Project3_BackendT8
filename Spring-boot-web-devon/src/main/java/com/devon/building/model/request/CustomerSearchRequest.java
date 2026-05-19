@@ -16,7 +16,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CustomerSearchRequest extends AbstractDTO {
     private String fullName;
-    private Long phone;
+    private String phone;
     private String email;
     private Long staffid;
     private String status;

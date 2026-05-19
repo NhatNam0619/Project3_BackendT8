@@ -11,7 +11,9 @@ public class CustomerRequestBuilderConverter {
     public CustomerResquestBuilder toCustomerSearchBuilder(CustomerSearchRequest params){
         CustomerResquestBuilder customerResquestBuilder = new CustomerResquestBuilder.Builder()
                 .setFullName(params.getFullName())
-                .setPhone(params.getPhone())
+                .setPhone( params.getPhone() != null
+                        ? Long.parseLong(params.getPhone())
+                        : null)
                 .setEmail(params.getEmail())
                 .setStaffid(params.getStaffid())
                 .setStatus(params.getStatus())

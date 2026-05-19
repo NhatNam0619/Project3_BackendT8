@@ -33,4 +33,7 @@ public class Transaction extends BaseEntity implements Serializable {
 
     @Column(name = "staffid")
     private Long staffid;
+
+    @Column(name = "active",nullable = false,columnDefinition = "TINYINT(1) DEFAULT 1")
+    private boolean active = true;
 }

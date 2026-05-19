@@ -19,6 +19,7 @@ public class BuildingAPI {
 
     private final BuildingService buildingService;
 
+    @PreAuthorize("hasRole('MANAGER')")
     @GetMapping("/{buildingId}/staffs")
     public ResponseEntity<ResponseDTO> loadStaffs(@PathVariable Long buildingId)
     {
@@ -29,6 +30,7 @@ public class BuildingAPI {
         return  ResponseEntity.ok().body(responseDTO);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @GetMapping("/{buildingId}/buildings")
     public ResponseEntity<ResponseDTO> loadBuildings(@PathVariable List<Long> buildingId)
     {
@@ -39,9 +41,9 @@ public class BuildingAPI {
         return  ResponseEntity.ok().body(responseDTO);
     }
 
+    @PreAuthorize("hasRole('MANAGER') or @buildingSecurity.isOwner(#p0.id)")
     @PutMapping
     public ResponseEntity<ResponseDTO> updateBuilding(@RequestBody @Valid BuildingDTO buildingDTO, BindingResult bindingResult) {
-
         ResponseDTO responseDTO = new ResponseDTO();
         try{
             if(bindingResult.hasErrors())
@@ -81,6 +83,7 @@ public class BuildingAPI {
             return ResponseEntity.internalServerError().body(responseDTO);
         }
     }
+
     @PreAuthorize("hasRole('MANAGER')")
     @PutMapping("/assignmentbuilding")
     public ResponseEntity<BuildingDTO> updateAssignmentBuilding(@RequestBody StaffIdsDTO staffIdsDTO)
@@ -92,6 +95,7 @@ public class BuildingAPI {
         return  ResponseEntity.ok().body(buildingDTO);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @DeleteMapping("{ids}")
     public ResponseEntity<ResponseDTO> deleteBuilding(@PathVariable List<Long> ids) {
         ResponseDTO responseDTO = buildingService.deleteBuilding(ids);

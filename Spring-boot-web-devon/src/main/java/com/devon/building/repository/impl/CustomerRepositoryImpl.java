@@ -38,7 +38,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
             special.append(" AND c.fullName LIKE '%" + customerResquestBuilder.getFullName() + "%'");
         }
         if (customerResquestBuilder.getPhone() != null) {
-            special.append(" And c.phone = " + customerResquestBuilder.getPhone());
+            special.append(" And str(c.phone) LIKE '%" + customerResquestBuilder.getPhone()+ "%'");
         }
         if (customerResquestBuilder.getEmail() != null && !customerResquestBuilder.getEmail().isEmpty()) {
             special.append(" AND c.email LIKE '%" + customerResquestBuilder.getEmail() + "%'");
@@ -48,7 +48,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
         }
         if (!SecurityUtil.hasRole("MANAGER")) {
         special.append(" And c.isActive = true ");}
-        special.append(" ORDER BY c.fullName ASC ");
+        special.append(" ORDER BY c.createdDate DESC ");
     }
     @Override
     public List<Customer> findAll(CustomerResquestBuilder customerResquestBuilder) {
